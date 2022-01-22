@@ -1,4 +1,8 @@
-# Random-Walk-Probability-and-Statistic-
+# Random-Walk-Probability-and-Statistics-
+## Group Members:
+1. Alisha Momin - am05757 
+2. Shamsa Hafeez Dawoodani - sd06162
+3. Umema Zehra - uz05607
 ## Purpose
 The purpose of this project is to familiarize students with the realization of probabilistic methods with simulations and coding. 
 The first question introduces the idea of calculating expected value through multiple simulations. Furthermore, students should come to realize that the expected value found through this way may lie close or far from the theoretical value. Thus, it is useful to calculate the expected value several times and plot it to experience the often normal distribution that expected values follow.

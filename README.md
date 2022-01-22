@@ -32,8 +32,43 @@ Examine the following section of code and mathematically deduce what distributio
 
 ### 2.3 
 Implement a function that returns a random variable from the distribution,
+
 ![pro3](https://user-images.githubusercontent.com/60126292/150655701-947d516f-2657-4ef9-b280-821456870687.PNG)
+
 Use it to produce a histogram and line plot like the above code. Implement a different function that calculates the expected value using the experiments and iterations approach and plots the set of expected values obtained. You may need to utilize the trick pointed to in the above lines and choose an appropriate cutoff for both of these.
+## 3 Picking a random point correctly 
+### 3.1 
+For this question, you have to pick random points in a circle in a uniform manner. The most intuitive approach for this is usually to pick a random number, r, from the uniform distribution between 0 and R, where R is the radius of the circle. Similarly, one can pick the angle θ in a similar manner and generate x, y coordinates from them. Implement a function that takes in a radius, R, and samples a large number of points in the described manner. The function should generate a scatter plot containing all the sampled points, as well as plotting a circle of the appropriate radius, Find and mention the variation in the x-coordinates as well.
+### 3.2
+This, however, does not result in a uniform pick.2 You may spot this from the plot which should have points concentrated more towards the center rather then points being uniformly spread out across the circle. Change the number points you are plotting if you do not observe this trend. Now instead of generating r and θ values we will generate x and y values uniformly. To generate random points on a circle of radius, R, pick both x and y independently and uniformly from the range [−R, R] to obtain a point. If the distance of this point from the origin is more than R, discard it and generate a new point in its place. Implement a function that takes in a radius, R, and samples a large number of points in the described manner. The function should generate a scatter plot containing all the sampled points, as well as plotting a circle of the appropriate radius, Find and mention the variation in the x-coordinates as well. Comment on why this found variation is different or same as in the previous part.
+### 3.3
+To get an intuition of why the first approach does not result in a uniform pick imagine a circle of radius 1 embedded in a circle of radius 2 as shown in Fig.2. If points are picked randomly, the probability of the point lying inside the larger circle should be 4 times than the smaller one. Does this hold when the above described method to pick r and θ is used? Explain in report with working.
+
+![pro4](https://user-images.githubusercontent.com/60126292/150655782-2fbb1b23-7e94-4989-a674-eb6dae024404.PNG)
+
+In this part, modify one or both of the ways to pick r and θ, such that the points are sampled in a uniform manner and a plot similar to that in part 2 is obtained. Implement a similar function as the above part. The plot generated this time should contain points that are uniformly spread across the circle. Describe how are you picking the random variables and find the variance of the x-coordinates once again and comment on your results. If you feeling up to it or for a bonus then you may derive the distribution from the following two facts. The probability of a point to lie inside a circle of radius, r ≤ R is proportional to its area. i.e. P(r ≤ R) = k · πr2. The probability of it lying inside the outermost circle of radius, R, should be 1 i.e. P(R ≤ R) = 1. After finding the distribution that r follows, you may then generate the values of r appropriately by mapping from the uniform random distribution as in the previous questions. Show all mathematical working.
+## 4 Saying random is not enough - Approaches effect distributions 
+In this question we are going to observe the distribution followed by the length of a random chord picked from a circle of radius r. The difficulty of the question lies in how to pick a random chord in a circle. For each of the described approaches implement a different function that takes in radius, r and plots a histogram of the length of chords with an appropriate number of bins, with proportion (probability) of values in the bin on y-axis instead of counts. Include mathematical calculation of chord lengths in all parts.
+### 4.1
+For the first approach we imagine the circle centred on the origin of the Cartesian plane. The θ = 0 ray/line is defined as starting at the origin and pointing in the direction of increasing x, and theta increasing counter clockwise. We pick two angles θ1 and θ2 uniformly between 0 and 2π, and our random chord is the chord between the points of the circle defined by those two angles.
+
+![pro5](https://user-images.githubusercontent.com/60126292/150655833-1abf7692-b407-4d07-a6d7-926f5211b45e.PNG)
+
+### 4.2 
+For the second approach we imagine the circle in a similar manner. Then we pick a random direction, θ, and draw a line from the center of the circle to its boundary such that the angle from the ray θ = 0 to this line, measured counter clockwise is θ. To create a random chord, we pick a point along this line and construct the perpendicular bisector of the line at this point. The perpendicular bisector can be extended to touch the boundary of the circle at either ends to obtain a chord.
+
+![pro6](https://user-images.githubusercontent.com/60126292/150655857-06440108-4757-4f97-b4ae-614e5f6ed08e.PNG)
+
+### 4.3
+For the third approach we again visualize the circle as before. This time we pick a random point uniformly from the circle as we did in the previous question. You may use any helper functions you may have developed in the previous part for this. After picking a point we find the chord which will have this point as it midpoint and this will be our random chord. There will be only one such chord.
+
+![pro7](https://user-images.githubusercontent.com/60126292/150655875-54f636a0-b71a-4893-88b3-74a4112aba66.PNG)
+
+## 5 Hypothesis Testing
+Intuition - If someone hands you a coin, and tells you its fair, you toss it 15 times and get 15 heads, you are going to be skeptical. That is the essence of hypothesis testing, we make a certain assumption, and then sample some data. If the sum of probability of obtaining the observed data or data less or equally likely is less than a certain threshold then we conclude our assumption to be false. The statement ‘or data less likely’ is a little vague and more importantly problem dependent. Let use look at a concrete example. Suppose you have a coin which we do not know as fair or not. We assume that the coin is fair. This is known as the null hypothesis. The alternative hypothesis is that the coin is not fair. We then set a certain threshold, and declare that given our assumption if the observed data or data less or equally likely has a total probability less than this threshold we will reject our assumption. Let us set the threshold at 0.05. We toss the coin 15 times and obtain 15 heads. The probability of this happening given that the coin is fair is (1/2)^15 ≈ 0.00003. An event that is less or equally like is getting 15 tails, with a probability of 0.00003 as well. The cumulative of these is 0.00006 which is less than our threshold, therefore we reject the null hypothesis. Suppose instead that we had tossed the coin 10 times and obtained 2 heads, while using the threshold of 0.1. The events equally or less likely are getting 2 or less heads and 2 or less tail, the sum of whose probabilities is 0.109375, which is greater than our threshold. Therefore, we declare that the null hypothesis is valid, and an unlikely but not too unlikely possibility has occurred. It may be argued that in the former case as well, the coin could have been fair and it was only that an unlikely possibility had occurred. The argument is valid, and when it comes to simulations, one can rectify this problem by repeating several times to obtain an expected value, and then repeating the entire experiment multiple times, to get a distribution of the expected values as we did in the previous questions. In real life, however, we hardly have such liberties, such as when conducting surveys, and therefore hypothesis testing remains a reliable method. Of course, we could be wrong sometimes to reject the null hypothesis but we would be right most of the time. That’s just how probability works.
+
+
+
 
 
 
